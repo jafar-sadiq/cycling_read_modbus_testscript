@@ -1,0 +1,37 @@
+def cycling_read_modbus(regType,regValue,noOfTimes):
+    """ Automatic data cheking function on the cycling read modbus test script """
+    
+    if regType=='fix':  #if register type is fix
+        #first time read_data value
+        read_data=int(input())
+        i=0
+        while i<noOfTimes:
+            curr_read_data=int(input())  #next read_data value
+            if curr_read_data!=read_data:
+                print(f"{curr_read_data} doesn't match with first time read_data value")
+                break
+            i+=1
+    
+    elif regType=='variable':  #if register type is variable
+        #set min and max value for within the range checking
+        if regValue=='0x8a':
+            min,max=12,13
+        elif regValue=='0x8c':
+            min,max=10,265
+        elif regValue=='0x96':
+            min,max=30,3300
+        else:
+            print("Register not found")
+        
+        i=0
+        while i<noOfTimes:
+            read_data=int(input())  #provide read_data value
+            if read_data<=min or read_data>=max:
+                print(f"{read_data} is out of range")
+                break
+            i+=1
+
+    else:  #if regType is other than fix or variable
+        print("Register type can either be fix or variable only")
+
+    return None
